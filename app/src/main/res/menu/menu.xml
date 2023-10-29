@@ -8,25 +8,22 @@
         app:showAsAction="withText" />
 
     <item
-        android:id="@+id/itemDmk"
-        android:icon="@android:drawable/ic_popup_sync"
-        android:title="Đổi mật khẩu"
-        app:showAsAction="withText" />
+        android:orderInCategory="2"
+        android:title="Liên hệ với tôi">
+        <menu>
+            <item
+                android:id="@+id/itemSdt"
+                android:icon="@android:drawable/stat_sys_phone_call"
+                android:iconTint="@color/black"
+                android:title="Số điện thoại"
+                app:showAsAction="withText" />
 
-            <item android:title="Liên hệ với tôi"
-                android:orderInCategory="2">
-                <menu>
-                    <item android:title="Số điện thoại"
-                        android:id="@+id/itemSdt"
-                        app:showAsAction="withText"
-                        android:iconTint="@color/black"
-                        android:icon="@android:drawable/stat_sys_phone_call" />
-
-                    <item android:title="Email"
-                        android:id="@+id/itemEmail"
-                        app:showAsAction="withText"
-                        android:iconTint="@color/black"
-                        android:icon="@android:drawable/ic_dialog_email" />
-                </menu>
-            </item>
+            <item
+                android:id="@+id/itemEmail"
+                android:icon="@android:drawable/ic_dialog_email"
+                android:iconTint="@color/black"
+                android:title="Email"
+                app:showAsAction="withText" />
+        </menu>
+    </item>
 </menu>

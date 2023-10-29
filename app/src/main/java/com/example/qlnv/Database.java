@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteStatement;
 
 import androidx.annotation.Nullable;
 
-import com.example.qlnv.QLTK.QLTKActivity;
-
 import java.sql.PreparedStatement;
 
 public class Database extends SQLiteOpenHelper {
@@ -18,7 +16,6 @@ public class Database extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
-
     //truy vấn không trả KQ: create, insert, update, delete....
     public PreparedStatement QueryData(String sql) {
         SQLiteDatabase database = getWritableDatabase();
@@ -26,7 +23,13 @@ public class Database extends SQLiteOpenHelper {
         return null;
     }
 
-    public void INSERT_NHANVIEN(String maNv, String hoTen, String gioiTinh, String diaChi, String sdt, String chucVu, byte[] hinhAnh){
+    //truy vấn trả về KQ: select
+    public Cursor GetData(String sql) {
+        SQLiteDatabase database = getReadableDatabase();
+        return database.rawQuery(sql, null);
+    }
+
+    public void INSERT_NHANVIEN(String maNv, String hoTen, String gioiTinh, String diaChi, String sdt, String chucVu, byte[] hinhAnh) {
         SQLiteDatabase database = getWritableDatabase();
         String sql = "INSERT INTO QLNV VALUES(?,?,?,?,?,?,?)";
         SQLiteStatement statement = database.compileStatement(sql);
@@ -59,12 +62,6 @@ public class Database extends SQLiteOpenHelper {
         statement.executeUpdateDelete();
     }
 
-
-    //truy vấn trả về KQ: select
-    public Cursor GetData(String sql) {
-        SQLiteDatabase database = getReadableDatabase();
-        return database.rawQuery(sql,null);
-    }
     @Override
     public void onCreate(SQLiteDatabase db) {
 

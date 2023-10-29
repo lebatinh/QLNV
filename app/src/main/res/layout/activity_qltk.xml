@@ -127,16 +127,6 @@
                         tools:ignore="SpeakableTextPresentCheck,TextSizeCheck,VisualLintTextFieldSize" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/txtForget"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textColor="@color/black"
-                    android:text="Quên Mật Khẩu?"
-                    android:textSize="13sp"
-                    android:textStyle="italic"
-                    tools:ignore="HardcodedText,TextSizeCheck" />
                 <Button
                     android:id="@+id/btnDangNhap"
                     android:layout_width="wrap_content"
@@ -147,6 +137,27 @@
                     android:textStyle="bold"
                     app:shapeAppearanceOverlay="@style/corner_50"
                     tools:ignore="HardcodedText,DuplicateSpeakableTextCheck,VisualLintButtonSize" />
+
+                <TextView
+                    android:id="@+id/txtForget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textColor="@color/black"
+                    android:text="Quên Mật Khẩu?"
+                    android:textSize="13sp"
+                    android:textStyle="italic"
+                    tools:ignore="HardcodedText,TextSizeCheck" />
+
+                <TextView
+                    android:id="@+id/txtChangeMk"
+                    android:text="Đổi mật khẩu?"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="end"
+                    android:textStyle="italic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
@@ -243,18 +254,19 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center|bottom"
-        android:orientation="vertical" >
-    <TextView
-        android:id="@+id/txtCodeByMe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="15dp"
-        android:layout_gravity="end"
-        android:text="Code by me"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="normal"
-        tools:ignore="HardcodedText" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtCodeByMe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="15dp"
+            android:layout_gravity="end"
+            android:text="Code by me"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="normal"
+            tools:ignore="HardcodedText" />
     </LinearLayout>
 </LinearLayout>

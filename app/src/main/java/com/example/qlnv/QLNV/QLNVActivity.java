@@ -10,10 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -23,7 +20,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.example.qlnv.Changepassword;
 import com.example.qlnv.Database;
 import com.example.qlnv.R;
 
@@ -52,7 +48,7 @@ public class QLNVActivity extends AppCompatActivity {
         lvNv.setAdapter(adapter);
 
         //tạo database QLTK
-        database = new Database(this, "QLNV.sqlite", null , 1);
+        database = new Database(QLNVActivity.this, "QLNV.sqlite", null, 1);
 
         //tạo bảng Quản lý tài khoản
         database.QueryData("CREATE TABLE IF NOT EXISTS QLNV(MaNv VARCHAR(10) PRIMARY KEY , HoTen VARCHAR(50)," +
@@ -133,9 +129,6 @@ public class QLNVActivity extends AppCompatActivity {
                 if (item.getItemId() == R.id.itemBaoLoi) {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.me/leba.tinh.36vip7star.sv7.real"));
                     startActivity(intent);
-                } else if (item.getItemId() == R.id.itemDmk) {
-                    Intent intent1 = new Intent(QLNVActivity.this, Changepassword.class);
-                    startActivity(intent1);
                 } else if (item.getItemId() == R.id.itemSdt) {
                     ActivityCompat.requestPermissions(
                             QLNVActivity.this,
@@ -181,4 +174,10 @@ public class QLNVActivity extends AppCompatActivity {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
+    @Override
+    public void onBackPressed() {
+        // do nothing
+    }
+
 }

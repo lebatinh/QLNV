@@ -24,4 +24,10 @@ public class ForgetPassword extends AppCompatActivity {
         btnQuayLai.setOnClickListener(v -> startActivity(new Intent(ForgetPassword.this, QLTKActivity.class)));
     }
 
+    @Override
+    public void onBackPressed() {
+        // do nothing
+    }
+
+
 }

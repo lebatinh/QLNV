@@ -109,18 +109,18 @@ public class ThemNVActivity extends AppCompatActivity {
             case REQUEST_CODE_CAMERA:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     // Mở camera để chụp ảnh
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(intent, REQUEST_CODE_CAMERA);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent, REQUEST_CODE_CAMERA);
                 }else {
                     Toast.makeText(this, "Bạn vừa hủy quyền truy cập camera", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case REQUEST_CODE_FOLDER:
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Mở thư viện ảnh để chọn ảnh
-                        Intent intent = new Intent(Intent.ACTION_PICK);
-                        intent.setType("image/*");
-                        startActivityForResult(intent, REQUEST_CODE_FOLDER);
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, REQUEST_CODE_FOLDER);
                 }else {
                     Toast.makeText(this, "Bạn vừa hủy quyền truy cập thư viện ảnh", Toast.LENGTH_SHORT).show();
                 }
@@ -148,15 +148,20 @@ public class ThemNVActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onBackPressed() {
+        // do nothing
+    }
+
     private void AnhXa() {
-        btnThem     = (Button) findViewById(R.id.btnThem);
-        btnThoat    = (Button) findViewById(R.id.btnThoat);
-        edtMaNv     = (EditText) findViewById(R.id.edtMaNv);
-        edtHoTen    = (EditText) findViewById(R.id.edtHoTen);
-        edtChucVu   = (EditText) findViewById(R.id.edtChucVu);
+        btnThem = (Button) findViewById(R.id.btnThem);
+        btnThoat = (Button) findViewById(R.id.btnThoat);
+        edtMaNv = (EditText) findViewById(R.id.edtMaNv);
+        edtHoTen = (EditText) findViewById(R.id.edtHoTen);
+        edtChucVu = (EditText) findViewById(R.id.edtChucVu);
         edtGioiTinh = (EditText) findViewById(R.id.edtGioiTinh);
-        edtDiaChi   = (EditText) findViewById(R.id.edtDiaChi);
-        edtSDT      = (EditText) findViewById(R.id.edtSDT);
+        edtDiaChi = (EditText) findViewById(R.id.edtDiaChi);
+        edtSDT = (EditText) findViewById(R.id.edtSDT);
         imgHinh     = (ImageView) findViewById(R.id.imgHinh);
     }
 }

@@ -206,6 +206,11 @@ public class SuaActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onBackPressed() {
+        // do nothing
+    }
+
     private void AnhXa() {
         btnSua = (Button) findViewById(R.id.btnSua1);
         btnThoat = (Button) findViewById(R.id.btnThoat1);

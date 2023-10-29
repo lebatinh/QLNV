@@ -22,9 +22,15 @@ public class CodeByMe extends AppCompatActivity {
         btnQuayLai.setOnClickListener(v -> startActivity(new Intent(CodeByMe.this, QLTKActivity.class)));
         //ấn nút gửi để đến messenger để gửi tin nhắn cho nhà phát triển
         btnGui.setOnClickListener(v -> {
-            Toast.makeText(this,"Chuẩn bị chuyển sang trang messenger", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Chuẩn bị chuyển sang trang messenger", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.me/leba.tinh.36vip7star.sv7.real"));
             startActivity(intent);
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        // do nothing
+    }
+
 }

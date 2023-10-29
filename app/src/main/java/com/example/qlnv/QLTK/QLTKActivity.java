@@ -3,6 +3,7 @@ package com.example.qlnv.QLTK;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -21,21 +22,15 @@ import com.google.android.material.textfield.TextInputEditText;
 public class QLTKActivity extends AppCompatActivity {
 
     Database database;
+    private boolean doubleBackToExitPressedOnce;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qltk);
-        GiaoDien();
-        //khi ấn vào quên mật khẩu
-        TextView txtForget = findViewById(R.id.txtForget);
-        txtForget.setOnClickListener(v -> startActivity(new Intent(QLTKActivity.this, ForgetPassword.class)));
-        //khi ấn vào dòng Code by me
-        TextView txtCodeByMe = findViewById(R.id.txtCodeByMe);
-        txtCodeByMe.setOnClickListener(v -> startActivity(new Intent(QLTKActivity.this, CodeByMe.class)));
 
         //tạo database QLTK
-        database = new Database(this, "QLTK.sqlite", null, 1);
+        database = new Database(QLTKActivity.this, "QLTK.sqlite", null, 1);
 
         //tạo bảng Quản lý tài khoản
         database.QueryData("CREATE TABLE IF NOT EXISTS QLTK(ID INTEGER PRIMARY KEY AUTOINCREMENT, TK VARCHAR(50), MK VARCHAR(50) )");
@@ -50,8 +45,37 @@ public class QLTKActivity extends AppCompatActivity {
             String tk = dataTK.getString(1);
             String mk = dataTK.getString(2);
         }
+        GiaoDien();
+
+        //khi ấn vào quên mật khẩu
+        TextView txtForget = findViewById(R.id.txtForget);
+        txtForget.setOnClickListener(v -> startActivity(new Intent(QLTKActivity.this, ForgetPassword.class)));
+        //khi ấn vào dòng Code by me
+        TextView txtCodeByMe = findViewById(R.id.txtCodeByMe);
+        txtCodeByMe.setOnClickListener(v -> startActivity(new Intent(QLTKActivity.this, CodeByMe.class)));
+
+        TextView txtChangeMk = findViewById(R.id.txtChangeMk);
+        txtChangeMk.setOnClickListener(v -> startActivity(new Intent(QLTKActivity.this, com.example.qlnv.QLTK.Changepassword.class)));
+
     }
 
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Nhấn quay lại một lần nữa để thoát ứng dụng", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
+    }
     private void GiaoDien() {
         TextView txtDangNhap = findViewById(R.id.txtDangNhap);
         LinearLayout linearDangNhap = findViewById(R.id.linearDangNhap);

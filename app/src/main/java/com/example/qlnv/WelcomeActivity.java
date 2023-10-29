@@ -23,4 +23,10 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         }, 2000);
     }
+
+    @Override
+    public void onBackPressed() {
+        // do nothing
+    }
+
 }
