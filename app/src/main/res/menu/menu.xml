@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/itemBaoLoi"
+        android:icon="@android:drawable/stat_notify_error"
+        android:title="Báo lỗi"
+        app:showAsAction="withText" />
+
+    <item
+        android:id="@+id/itemDmk"
+        android:icon="@android:drawable/ic_popup_sync"
+        android:title="Đổi mật khẩu"
+        app:showAsAction="withText" />
+
+            <item android:title="Liên hệ với tôi"
+                android:orderInCategory="2">
+                <menu>
+                    <item android:title="Số điện thoại"
+                        android:id="@+id/itemSdt"
+                        app:showAsAction="withText"
+                        android:iconTint="@color/black"
+                        android:icon="@android:drawable/stat_sys_phone_call" />
+
+                    <item android:title="Email"
+                        android:id="@+id/itemEmail"
+                        app:showAsAction="withText"
+                        android:iconTint="@color/black"
+                        android:icon="@android:drawable/ic_dialog_email" />
+                </menu>
+            </item>
+</menu>

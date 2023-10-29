@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:weightSum="5"
+    tools:context="com.example.qlnv.CodeByMe">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_purple"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Chương trình được viết bởi Tình"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        tools:ignore="HardcodedText,TextSizeCheck" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:gravity="center"
+            android:text="Hãy gửi góp ý cho tôi"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold|italic"
+            tools:ignore="HardcodedText,NestedWeights" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            tools:ignore="NestedWeights">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Ấn vào nút bên dưới để gửi tin nhắn cho tôi"
+                android:padding="13dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                tools:ignore="HardcodedText,TextFields,VisualLintTextFieldSize,TextContrastCheck" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/btnGui"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gửi"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    tools:ignore="ButtonStyle,HardcodedText,VisualLintButtonSize" />
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvGopY"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true"
+                    android:visibility="gone">
+                    <TextView
+                        android:id="@+id/gop_y_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Đã gửi góp ý thành công.\n Cảm ơn bạn."
+                        android:textSize="30sp"
+                        android:textStyle="italic"
+                        tools:ignore="DuplicateIds,HardcodedText" />
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="start|bottom">
+
+        <Button
+            android:id="@+id/btnQuayLai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15sp"
+            android:layout_marginBottom="15sp"
+            android:text="Quay lại trang đăng nhập"
+            android:textColor="@android:color/holo_green_dark"
+            android:textSize="15sp"
+            tools:ignore="HardcodedText,TextContrastCheck" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">QLNV</string>
+    <string name="welcome">Đang đăng nhập ...</string>
+    <string name="wait">Vui lòng chờ trong giây lát...</string>
+</resources>
