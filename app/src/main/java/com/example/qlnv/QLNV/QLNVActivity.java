@@ -72,17 +72,24 @@ public class QLNVActivity extends AppCompatActivity {
                 String maNv = arrayNv.get(i).getMaNv();
                 AlertDialog.Builder builder = new AlertDialog.Builder(QLNVActivity.this);
                 builder.setTitle("Cảnh báo");
-                builder.setMessage("Bạn muốn xóa hay sửa nhân viên có mã nhân viên "+ maNv +" này?");
+                builder.setMessage("Bạn muốn xóa hay sửa nhân viên có mã nhân viên " + maNv + " này?");
                 builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        for (i = 0; i < arrayNv.size(); i++) {
-                            String query = "DELETE FROM QLNV WHERE MaNv = '" + maNv + "'";
-                            PreparedStatement pstmt = database.QueryData(query);
-                            arrayNv.remove(i);
-                            adapter.notifyDataSetChanged();
-                            break;
-                        }
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(QLNVActivity.this);
+                        builder1.setTitle("Cảnh báo");
+                        builder1.setMessage("Bạn có chắc chắn muốn xóa nhân viên có mã nhân viên là " + maNv + " này?");
+                        builder1.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String query = "DELETE FROM QLNV WHERE MaNv = '" + maNv + "'";
+                                PreparedStatement pstmt = database.QueryData(query);
+                                arrayNv.remove(index);
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                        builder1.setNegativeButton("Không", null);
+                        builder1.show();
                     }
                 });
                 builder.setNegativeButton("Sửa", new DialogInterface.OnClickListener() {

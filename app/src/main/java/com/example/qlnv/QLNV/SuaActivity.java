@@ -43,6 +43,7 @@ public class SuaActivity extends AppCompatActivity {
     final int REQUEST_CODE_FOLDER = 456;
 
     private List<QLNV> qlnvList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
