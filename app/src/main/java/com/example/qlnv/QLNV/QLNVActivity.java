@@ -58,7 +58,7 @@ public class QLNVActivity extends AppCompatActivity {
         Cursor cursor = database.GetData("SELECT MaNv, HoTen, ChucVu, HinhAnh FROM QLNV");
         while (cursor.moveToNext()) {
             arrayNv.add(new QLNV(
-                    cursor.getString(0),
+                    cursor.getInt(0),
                     cursor.getString(1),
                     cursor.getString(2),
                     cursor.getBlob(3)
@@ -69,7 +69,7 @@ public class QLNVActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long id) {
                 index = i;
-                String maNv = arrayNv.get(i).getMaNv();
+                int maNv = arrayNv.get(i).getMaNv();
                 AlertDialog.Builder builder = new AlertDialog.Builder(QLNVActivity.this);
                 builder.setTitle("Cảnh báo");
                 builder.setMessage("Bạn muốn xóa hay sửa nhân viên có mã nhân viên " + maNv + " này?");

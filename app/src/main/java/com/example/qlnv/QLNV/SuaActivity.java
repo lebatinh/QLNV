@@ -98,7 +98,7 @@ public class SuaActivity extends AppCompatActivity {
 
                 database.GetData("SELECT MaNv, Hoten, ChucVu, GioiTinh, DiaChi, SDT,  HinhAnh FROM QLNV WHERE MaNv = '" + maNv + "' ");
 
-                String id1 = QLNVActivity.arrayNv.get(i).getMaNv();
+                int id1 = QLNVActivity.arrayNv.get(i).getMaNv();
                 if (maNv.equals(id1)) {
                     database.UPDATE_NHANVIEN(maNv, hoTen, gioiTinh, diaChi, sdt, chucVu, hinhAnh);
 
