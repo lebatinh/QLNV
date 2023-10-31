@@ -29,6 +29,8 @@ public class QLNVAdapter extends BaseAdapter {
     public int getCount() {
         return qlnvList.size();
     }
+
+    @Override
     public Object getItem(int position) {
         return qlnvList.get(position);
     }
@@ -38,7 +40,7 @@ public class QLNVAdapter extends BaseAdapter {
         return qlnvList.get(position).getMaNv();
     }
 
-    private class ViewHoler{
+    private class ViewHoler {
         TextView txtName, txtCv, txtMaNv;
         ImageView imgNv;
     }

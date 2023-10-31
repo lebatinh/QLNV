@@ -4,11 +4,10 @@ import static com.example.qlnv.QLNV.QLNVActivity.database;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -33,7 +32,6 @@ import com.example.qlnv.R;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.List;
 
 public class SuaActivity extends AppCompatActivity {
     ImageView imgHinh;
@@ -41,8 +39,8 @@ public class SuaActivity extends AppCompatActivity {
     Button btnSua, btnThoat;
     final int REQUEST_CODE_CAMERA = 123;
     final int REQUEST_CODE_FOLDER = 456;
-
-    private List<QLNV> qlnvList;
+    int position;
+    Database database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,30 +49,11 @@ public class SuaActivity extends AppCompatActivity {
 
         AnhXa();
 
-        int i = 0;
-        edtMaNv.setText(QLNVActivity.arrayNv.get(i).getMaNv());
-        edtHoTen.setText(QLNVActivity.arrayNv.get(i).getHoTen());
-        edtChucVu.setText(QLNVActivity.arrayNv.get(i).getChucVu());
-
-//        String query = ("SELECT GioiTinh, DiaChi, SDT FROM QLNV WHERE MaNv = '"+edtMaNv+"' ");
-//        Cursor cursor = database.GetData(query);
-//
-//        if(cursor.moveToFirst()) {
-//            do {
-//                String gt = cursor.getString(4);
-//                String dc = cursor.getString(5);
-//                String sdt = cursor.getString(6);
-//
-//                edtGioiTinh.setText(gt);
-//                edtDiaChi.setText(dc);
-//                edtSDT.setText(sdt);
-//
-//            } while (cursor.moveToNext());
-//        }cursor.close();
-
-
+        edtMaNv.setText(String.valueOf(QLNVActivity.arrayNv.get(position).getMaNv()));
+        edtHoTen.setText(QLNVActivity.arrayNv.get(position).getHoTen());
+        edtChucVu.setText(QLNVActivity.arrayNv.get(position).getChucVu());
         //lấy dữ liệu byte và chuyển byte thành bitmap để dùng
-        byte[] hinh = QLNVActivity.arrayNv.get(i).getHinh();
+        byte[] hinh = QLNVActivity.arrayNv.get(position).getHinh();
         Bitmap bitmap = BitmapFactory.decodeByteArray(hinh, 0, hinh.length);
         imgHinh.setImageBitmap(bitmap);
 
@@ -98,7 +77,7 @@ public class SuaActivity extends AppCompatActivity {
 
                 database.GetData("SELECT MaNv, Hoten, ChucVu, GioiTinh, DiaChi, SDT,  HinhAnh FROM QLNV WHERE MaNv = '" + maNv + "' ");
 
-                int id1 = QLNVActivity.arrayNv.get(i).getMaNv();
+                int id1 = QLNVActivity.arrayNv.get(position).getMaNv();
                 if (maNv.equals(id1)) {
                     database.UPDATE_NHANVIEN(maNv, hoTen, gioiTinh, diaChi, sdt, chucVu, hinhAnh);
 
