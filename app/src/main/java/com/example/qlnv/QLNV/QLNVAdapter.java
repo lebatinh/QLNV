@@ -10,16 +10,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.qlnv.R;
-
 import java.util.List;
 
 public class QLNVAdapter extends BaseAdapter {
     private QLNVActivity context;
     private int layout;
-    private List<QLNV> qlnvList;
+    private static List<QLNV> qlnvList;
 
     public QLNVAdapter(QLNVActivity context, int layout, List<QLNV> qlnvList) {
         this.context = context;
@@ -73,7 +71,7 @@ public class QLNVAdapter extends BaseAdapter {
 
         holer.txtName.setText(qlnv.getHoTen());
         holer.txtCv.setText(qlnv.getChucVu());
-        holer.txtMaNv.setText(qlnv.getMaNv());
+        holer.txtMaNv.setText(String.valueOf(qlnv.getMaNv()));
         return view;
     }
 }
