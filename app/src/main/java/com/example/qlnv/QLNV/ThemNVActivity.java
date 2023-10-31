@@ -68,6 +68,7 @@ public class ThemNVActivity extends AppCompatActivity {
                         edtSDT.getText().toString().trim(),
                         hinhAnh
                 );
+                QLNVActivity.database.close();
                 Toast.makeText(ThemNVActivity.this, "Đã thêm Nhân viên", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(ThemNVActivity.this, QLNVActivity.class));
             }

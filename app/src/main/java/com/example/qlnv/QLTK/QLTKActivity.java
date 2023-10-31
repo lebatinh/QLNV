@@ -118,6 +118,7 @@ public class QLTKActivity extends AppCompatActivity {
                     } else {
                         if (Mk.equals(Mk2) && !Tk.isEmpty()) {
                             database.QueryData("INSERT INTO QLTK(TK, MK) VALUES('" + Tk + "', '" + Mk + "')");
+                            database.close();
                             Toast.makeText(QLTKActivity.this, "Đăng ký tài khoản thành công. Vui lòng đăng nhập để sử dụng!", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(QLTKActivity.this, "Mật khẩu nhập lại PHẢI trùng với mật khẩu trước đó", Toast.LENGTH_SHORT).show();
@@ -140,6 +141,7 @@ public class QLTKActivity extends AppCompatActivity {
                         if (cursor.getCount() > 0) {
                             Toast.makeText(QLTKActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(QLTKActivity.this, WelcomeActivity.class);
+                            database.close();
                             startActivity(intent);
                         }
                     } catch (Exception e) {
