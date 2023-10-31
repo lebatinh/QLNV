@@ -2,23 +2,16 @@ package com.example.qlnv.QLNV;
 
 public class QLNV {
 
-    private String MaNv;
+    private int MaNv;
     private String HoTen;
     private String ChucVu;
     private byte[] hinh;
 
-    public QLNV(String maNv, String hoTen, String chucVu, byte[] hinh) {
-        MaNv = maNv;
-        HoTen = hoTen;
-        ChucVu = chucVu;
-        this.hinh = hinh;
-    }
-
-    public String getMaNv() {
+    public int getMaNv() {
         return MaNv;
     }
 
-    public void setMaNv(String maNv) {
+    public void setMaNv(int maNv) {
         MaNv = maNv;
     }
 
@@ -43,6 +36,13 @@ public class QLNV {
     }
 
     public void setHinh(byte[] hinh) {
+        this.hinh = hinh;
+    }
+
+    public QLNV(int maNv, String hoTen, String chucVu, byte[] hinh) {
+        MaNv = maNv;
+        HoTen = hoTen;
+        ChucVu = chucVu;
         this.hinh = hinh;
     }
 }

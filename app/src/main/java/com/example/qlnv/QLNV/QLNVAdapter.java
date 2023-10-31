@@ -31,15 +31,13 @@ public class QLNVAdapter extends BaseAdapter {
     public int getCount() {
         return qlnvList.size();
     }
-
-    @Override
     public Object getItem(int position) {
         return qlnvList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return qlnvList.get(position).getMaNv();
     }
 
     private class ViewHoler{
