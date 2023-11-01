@@ -1,10 +1,7 @@
 package com.example.qlnv.QLNV;
 
-import static com.example.qlnv.QLNV.QLNVActivity.database;
-
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,7 +12,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.renderscript.Sampler;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -34,7 +30,7 @@ import com.example.qlnv.R;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.List;
+import java.util.ArrayList;
 
 public class SuaActivity extends AppCompatActivity {
     ImageView imgHinh;
@@ -42,42 +38,43 @@ public class SuaActivity extends AppCompatActivity {
     Button btnSua, btnThoat;
     final int REQUEST_CODE_CAMERA = 123;
     final int REQUEST_CODE_FOLDER = 456;
-
-    private List<QLNV> qlnvList;
+    Database database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sua);
 
+        // Khởi tạo và mở cơ sở dữ liệu
+        database = new Database(SuaActivity.this, "QLNV.sqlite", null, 1);
+        database.getWritableDatabase();
+
         AnhXa();
 
-        int i = 0;
-        edtMaNv.setText(String.valueOf(QLNVActivity.arrayNv.get(i).getMaNv()));
-        edtHoTen.setText(QLNVActivity.arrayNv.get(i).getHoTen());
-        edtChucVu.setText(QLNVActivity.arrayNv.get(i).getChucVu());
+        /// Lấy thông tin từ Intent
+        Intent intent = getIntent();
+        int maNv = intent.getIntExtra("MaNv", 1);
+        String hoTen = intent.getStringExtra("HoTen");
+        String cv = intent.getStringExtra("ChucVu");
+        String gt = intent.getStringExtra("GioiTinh");
+        String dc = intent.getStringExtra("DiaChi");
+        String sdt = intent.getStringExtra("SDT");
+        byte[] hinh = intent.getByteArrayExtra("HinhAnh");
 
-//        String query = ("SELECT GioiTinh, DiaChi, SDT FROM QLNV WHERE MaNv = '"+edtMaNv+"' ");
-//        Cursor cursor = database.GetData(query);
-//
-//        if(cursor.moveToFirst()) {
-//            do {
-//                String gt = cursor.getString(4);
-//                String dc = cursor.getString(5);
-//                String sdt = cursor.getString(6);
-//
-//                edtGioiTinh.setText(gt);
-//                edtDiaChi.setText(dc);
-//                edtSDT.setText(sdt);
-//
-//            } while (cursor.moveToNext());
-//        }cursor.close();
+        edtMaNv.setText(String.valueOf(maNv));
+        edtHoTen.setText(hoTen);
+        edtChucVu.setText(cv);
+        edtGioiTinh.setText(gt);
+        edtDiaChi.setText(dc);
+        edtSDT.setText(sdt);
 
+        if (hinh != null) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(hinh, 0, hinh.length);
+            imgHinh.setImageBitmap(bitmap);
+        }
 
-        //lấy dữ liệu byte và chuyển byte thành bitmap để dùng
-        byte[] hinh = QLNVActivity.arrayNv.get(i).getHinh();
-        Bitmap bitmap = BitmapFactory.decodeByteArray(hinh, 0, hinh.length);
-        imgHinh.setImageBitmap(bitmap);
+        String manv = edtMaNv.toString().trim();
+
 
         btnSua.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,13 +94,13 @@ public class SuaActivity extends AppCompatActivity {
                 String sdt = edtSDT.getText().toString().trim();
                 String chucVu = edtChucVu.getText().toString().trim();
 
-                database.GetData("SELECT MaNv, Hoten, ChucVu, GioiTinh, DiaChi, SDT,  HinhAnh FROM QLNV WHERE MaNv = '" + maNv + "' ");
-
-                String id1 = String.valueOf(QLNVActivity.arrayNv.get(i).getMaNv());
-                if (maNv.equals(id1)) {
+                // Kiểm tra xem Mã Nhân viên có thay đổi không
+                Cursor cursor = database.GetData("SELECT MaNv FROM QLNV WHERE MaNv = '" + maNv + "'");
+                if (cursor.getCount() > 0) {
+                    // Mã Nhân viên không thay đổi, tiến hành cập nhật thông tin
                     database.UPDATE_NHANVIEN(maNv, hoTen, gioiTinh, diaChi, sdt, chucVu, hinhAnh);
-
-                    Toast.makeText(SuaActivity.this, "Đã sửa Nhân viên", Toast.LENGTH_SHORT).show();
+                    database.close();
+                    Toast.makeText(SuaActivity.this, "Đã cập nhật Nhân viên", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(SuaActivity.this, QLNVActivity.class));
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(SuaActivity.this);
@@ -119,11 +116,8 @@ public class SuaActivity extends AppCompatActivity {
                             });
 
                     AlertDialog alert = builder.create();
-                    alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     alert.show();
-
                 }
-
             }
         });
         btnThoat.setOnClickListener(new View.OnClickListener() {

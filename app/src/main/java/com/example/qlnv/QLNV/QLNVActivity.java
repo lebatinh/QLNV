@@ -1,6 +1,7 @@
 package com.example.qlnv.QLNV;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -30,18 +31,19 @@ public class QLNVActivity extends AppCompatActivity {
 
     public static Database database;
     ListView lvNv;
-    static ArrayList<QLNV> arrayNv;
+    ArrayList<QLNV> arrayNv;
     QLNVAdapter adapter;
     ImageButton btnMenu;
     ImageButton btnThem;
     final int REQUEST_CODE_PHONE = 1;
     int index = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qlnv);
 
-        lvNv = (ListView) findViewById(R.id.lvNv);
+        lvNv = findViewById(R.id.lvNv);
         arrayNv = new ArrayList<>();
 
         adapter = new QLNVAdapter(this, R.layout.nv_defaut, arrayNv);
@@ -65,47 +67,75 @@ public class QLNVActivity extends AppCompatActivity {
             ));
             adapter.notifyDataSetChanged();
         }
+        cursor.close();
         lvNv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long id) {
                 index = i;
-                int maNv = arrayNv.get(i).getMaNv();
-                AlertDialog.Builder builder = new AlertDialog.Builder(QLNVActivity.this);
-                builder.setTitle("Cảnh báo");
-                builder.setMessage("Bạn muốn xóa hay sửa nhân viên có mã nhân viên " + maNv + " này?");
-                builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(QLNVActivity.this);
-                        builder1.setTitle("Cảnh báo");
-                        builder1.setMessage("Bạn có chắc chắn muốn xóa nhân viên có mã nhân viên là " + maNv + " này?");
-                        builder1.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                String query = "DELETE FROM QLNV WHERE MaNv = '" + maNv + "'";
-                                PreparedStatement pstmt = database.QueryData(query);
-                                arrayNv.remove(index);
-                                adapter.notifyDataSetChanged();
-                            }
-                        });
-                        builder1.setNegativeButton("Không", null);
-                        builder1.show();
-                    }
-                });
-                builder.setNegativeButton("Sửa", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        startActivity(new Intent(QLNVActivity.this, SuaActivity.class));
-                    }
-                });
-                builder.setNeutralButton("Thoát", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builder.show();
-                return false;
+                Object item = parent.getItemAtPosition(index);
+                QLNV qlnv = (QLNV) item;
+                int maNv = qlnv.getMaNv();
+                String hoten = qlnv.getHoTen();
+                String cv = qlnv.getChucVu();
+                byte[] hinh = qlnv.getHinh();
+
+                Cursor cursor = database.GetData("SELECT GioiTinh, DiaChi, SDT FROM QLNV WHERE MaNv = " + maNv);
+                if (cursor.moveToFirst()) {
+//                    @SuppressLint("Range") String gt = cursor.getString(cursor.getColumnIndex("GioiTinh"));
+//                    @SuppressLint("Range") String dc = cursor.getString(cursor.getColumnIndex("DiaChi"));
+//                    @SuppressLint("Range") String sdt = cursor.getString(cursor.getColumnIndex("SDT"));
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(QLNVActivity.this);
+                    builder.setTitle("Cảnh báo");
+                    builder.setMessage("Bạn muốn xóa hay sửa nhân viên có mã nhân viên " + maNv + " này?");
+                    builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(QLNVActivity.this);
+                            builder1.setTitle("Cảnh báo");
+                            builder1.setMessage("Bạn có chắc chắn muốn xóa nhân viên có mã nhân viên là " + maNv + " này?");
+                            builder1.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    String query = "DELETE FROM QLNV WHERE MaNv = '" + maNv + "'";
+                                    PreparedStatement pstmt = database.QueryData(query);
+                                    arrayNv.remove(index);
+                                    database.close();
+                                    adapter.notifyDataSetChanged();
+                                }
+                            });
+                            builder1.setNegativeButton("Không", null);
+                            builder1.show();
+                        }
+                    });
+                    builder.setNegativeButton("Sửa", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(QLNVActivity.this, SuaActivity.class);
+
+                            // Gửi thông tin nhân viên tới SuaActivity
+                            intent.putExtra("MaNv", maNv);
+                            intent.putExtra("HoTen", hoten);
+                            intent.putExtra("ChucVu", cv);
+//                            intent.putExtra("GioiTinh", gt);
+//                            intent.putExtra("DiaChi", dc);
+//                            intent.putExtra("SDT", sdt);
+                            // Truyền dữ liệu hình ảnh dưới dạng byte array
+                            intent.putExtra("HinhAnh", hinh);
+
+                            startActivity(intent);
+                        }
+                    });
+                    builder.setNeutralButton("Thoát", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                    return true;
+                }
+                return true;
             }
         });
 
