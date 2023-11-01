@@ -29,20 +29,19 @@ import java.util.ArrayList;
 public class QLNVActivity extends AppCompatActivity {
 
     public static Database database;
-
+    ListView lvNv;
     static ArrayList<QLNV> arrayNv;
     QLNVAdapter adapter;
-    ListView lvNv;
     ImageButton btnMenu;
     ImageButton btnThem;
     final int REQUEST_CODE_PHONE = 1;
-
+    int index = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qlnv);
 
-        lvNv = findViewById(R.id.lvNv);
+        lvNv = (ListView) findViewById(R.id.lvNv);
         arrayNv = new ArrayList<>();
 
         adapter = new QLNVAdapter(this, R.layout.nv_defaut, arrayNv);
@@ -55,7 +54,7 @@ public class QLNVActivity extends AppCompatActivity {
         database.QueryData("CREATE TABLE IF NOT EXISTS QLNV(MaNv VARCHAR(10) PRIMARY KEY , HoTen VARCHAR(50)," +
                 " ChucVu VARCHAR(50), GioiTinh VARCHAR(10), Diachi VARCHAR(50), SDT VARCHAR(11), HinhAnh BLOB)");
 
-        ///get data
+        //get data
         Cursor cursor = database.GetData("SELECT MaNv, HoTen, ChucVu, HinhAnh FROM QLNV");
         while (cursor.moveToNext()) {
             arrayNv.add(new QLNV(
@@ -66,27 +65,26 @@ public class QLNVActivity extends AppCompatActivity {
             ));
             adapter.notifyDataSetChanged();
         }
-
         lvNv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Object item = parent.getItemAtPosition(position);
-                int maNv = arrayNv.get(position).getMaNv();
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long id) {
+                index = i;
+                int maNv = arrayNv.get(i).getMaNv();
                 AlertDialog.Builder builder = new AlertDialog.Builder(QLNVActivity.this);
                 builder.setTitle("Cảnh báo");
                 builder.setMessage("Bạn muốn xóa hay sửa nhân viên có mã nhân viên " + maNv + " này?");
                 builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int position) {
+                    public void onClick(DialogInterface dialogInterface, int i) {
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(QLNVActivity.this);
                         builder1.setTitle("Cảnh báo");
                         builder1.setMessage("Bạn có chắc chắn muốn xóa nhân viên có mã nhân viên là " + maNv + " này?");
                         builder1.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int position) {
+                            public void onClick(DialogInterface dialogInterface, int i) {
                                 String query = "DELETE FROM QLNV WHERE MaNv = '" + maNv + "'";
                                 PreparedStatement pstmt = database.QueryData(query);
-                                arrayNv.remove(item);
+                                arrayNv.remove(index);
                                 adapter.notifyDataSetChanged();
                             }
                         });
@@ -96,13 +94,8 @@ public class QLNVActivity extends AppCompatActivity {
                 });
                 builder.setNegativeButton("Sửa", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int position) {
-
-                        // Chuyển qua SuaActivity để hiển thị thông tin của nhân viên tại vị trí đó
-                        Intent intent = new Intent(QLNVActivity.this, SuaActivity.class);
-                        intent.putExtra("position", position);
-                        startActivity(intent);
-
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(QLNVActivity.this, SuaActivity.class));
                     }
                 });
                 builder.setNeutralButton("Thoát", new DialogInterface.OnClickListener() {
@@ -112,7 +105,7 @@ public class QLNVActivity extends AppCompatActivity {
                     }
                 });
                 builder.show();
-                return true;
+                return false;
             }
         });
 
