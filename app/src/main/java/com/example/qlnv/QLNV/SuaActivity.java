@@ -219,10 +219,10 @@ public class SuaActivity extends AppCompatActivity {
 
         edtMaNv = (EditText) findViewById(R.id.edtMaNv1);
         edtHoTen = (EditText) findViewById(R.id.edtHoTen1);
-        edtChucVu = (EditText) findViewById(R.id.edtChucVu1);
         edtGioiTinh = (EditText) findViewById(R.id.edtGioiTinh1);
         edtDiaChi = (EditText) findViewById(R.id.edtDiaChi1);
         edtSDT = (EditText) findViewById(R.id.edtSDT1);
+        edtChucVu = (EditText) findViewById(R.id.edtChucVu1);
         imgHinh = (ImageView) findViewById(R.id.imgHinh1);
     }
 }
