@@ -1,7 +1,6 @@
 package com.example.qlnv.QLNV;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,6 +13,9 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+
+import androidx.appcompat.widget.SearchView;
+
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,6 +39,8 @@ public class QLNVActivity extends AppCompatActivity {
     ImageButton btnThem;
     final int REQUEST_CODE_PHONE = 1;
     int index = -1;
+
+    SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,46 +98,46 @@ public class QLNVActivity extends AppCompatActivity {
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(QLNVActivity.this);
                         builder1.setTitle("Cảnh báo");
                         builder1.setMessage("Bạn có chắc chắn muốn xóa nhân viên có mã nhân viên là " + maNv + " này?");
-                            builder1.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    String query = "DELETE FROM QLNV WHERE MaNv = '" + maNv + "'";
-                                    PreparedStatement pstmt = database.QueryData(query);
-                                    arrayNv.remove(index);
-                                    database.close();
-                                    adapter.notifyDataSetChanged();
-                                }
-                            });
-                            builder1.setNegativeButton("Không", null);
-                            builder1.show();
-                        }
-                    });
-                    builder.setNegativeButton("Sửa", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent intent = new Intent(QLNVActivity.this, SuaActivity.class);
+                        builder1.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String query = "DELETE FROM QLNV WHERE MaNv = '" + maNv + "'";
+                                PreparedStatement pstmt = database.QueryData(query);
+                                arrayNv.remove(index);
+                                database.close();
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                        builder1.setNegativeButton("Không", null);
+                        builder1.show();
+                    }
+                });
+                builder.setNegativeButton("Sửa", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(QLNVActivity.this, SuaActivity.class);
 
-                            // Gửi thông tin nhân viên tới SuaActivity
-                            intent.putExtra("MaNv", maNv);
-                            intent.putExtra("HoTen", hoten);
-                            intent.putExtra("ChucVu", cv);
-                            intent.putExtra("GioiTinh", gt);
-                            intent.putExtra("DiaChi", dc);
-                            intent.putExtra("SDT", sdt);
-                            // Truyền dữ liệu hình ảnh dưới dạng byte array
-                            intent.putExtra("HinhAnh", hinh);
+                        // Gửi thông tin nhân viên tới SuaActivity
+                        intent.putExtra("MaNv", maNv);
+                        intent.putExtra("HoTen", hoten);
+                        intent.putExtra("ChucVu", cv);
+                        intent.putExtra("GioiTinh", gt);
+                        intent.putExtra("DiaChi", dc);
+                        intent.putExtra("SDT", sdt);
+                        // Truyền dữ liệu hình ảnh dưới dạng byte array
+                        intent.putExtra("HinhAnh", hinh);
 
-                            startActivity(intent);
-                        }
-                    });
-                    builder.setNeutralButton("Thoát", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    builder.show();
-                    return true;
+                        startActivity(intent);
+                    }
+                });
+                builder.setNeutralButton("Thoát", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+                return true;
             }
         });
 
@@ -152,6 +156,39 @@ public class QLNVActivity extends AppCompatActivity {
                 ShowMenu();
             }
         });
+
+        searchView = (SearchView) findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Thực hiện tìm kiếm khi người dùng nhấn nút tìm kiếm trên bàn phím
+                performSearch(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Thực hiện tìm kiếm theo mỗi ký tự thay đổi trong ô tìm kiếm
+                performSearch(newText);
+                return true;
+            }
+        });
+    }
+
+    private void performSearch(String query) {
+        ArrayList<QLNV> searchResults = new ArrayList<>();
+
+        for (QLNV employee : arrayNv) {
+            if (employee.getMaNv().toLowerCase().contains(query.toLowerCase()) ||
+                    employee.getHoTen().toLowerCase().contains(query.toLowerCase()) ||
+                    employee.getChucVu().toLowerCase().contains(query.toLowerCase())) {
+                searchResults.add(employee);
+            }
+        }
+
+        adapter = new QLNVAdapter(this, R.layout.nv_defaut, searchResults);
+        lvNv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     private void ShowMenu() {
