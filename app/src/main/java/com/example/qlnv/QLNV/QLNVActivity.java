@@ -60,7 +60,7 @@ public class QLNVActivity extends AppCompatActivity {
         Cursor cursor = database.GetData("SELECT MaNv, HoTen, ChucVu, GioiTinh, DiaChi, SDT, HinhAnh FROM QLNV");
         while (cursor.moveToNext()) {
             arrayNv.add(new QLNV(
-                    cursor.getInt(0),
+                    cursor.getString(0),
                     cursor.getString(1),
                     cursor.getString(2),
                     cursor.getString(3),
@@ -75,8 +75,9 @@ public class QLNVActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long id) {
                 index = i;
-                QLNV qlnv = arrayNv.get(index);
-                int maNv = qlnv.getMaNv();
+                Object item = parent.getItemAtPosition(index);
+                QLNV qlnv = (QLNV) item;
+                String maNv = String.valueOf(qlnv.getMaNv());
                 String hoten = qlnv.getHoTen();
                 byte[] hinh = qlnv.getHinh();
                 String gt = qlnv.getGioiTinh();

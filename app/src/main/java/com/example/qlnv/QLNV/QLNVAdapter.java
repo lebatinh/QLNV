@@ -37,7 +37,7 @@ public class QLNVAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return qlnvList.get(position).getMaNv();
+        return 0;
     }
 
     private class ViewHoler {

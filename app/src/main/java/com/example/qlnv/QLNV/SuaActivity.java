@@ -51,7 +51,7 @@ public class SuaActivity extends AppCompatActivity {
 
         /// Lấy thông tin từ Intent
         Intent intent = getIntent();
-        int maNv = intent.getIntExtra("MaNv", 1);
+        String maNv = intent.getStringExtra("MaNv");
         String hoTen = intent.getStringExtra("HoTen");
         String gt = intent.getStringExtra("GioiTinh");
         String dc = intent.getStringExtra("DiaChi");
@@ -59,7 +59,7 @@ public class SuaActivity extends AppCompatActivity {
         String cv = intent.getStringExtra("ChucVu");
         byte[] hinh = intent.getByteArrayExtra("HinhAnh");
 
-        edtMaNv.setText(String.valueOf(maNv));
+        edtMaNv.setText(maNv);
         edtHoTen.setText(hoTen);
         edtGioiTinh.setText(gt);
         edtDiaChi.setText(dc);
