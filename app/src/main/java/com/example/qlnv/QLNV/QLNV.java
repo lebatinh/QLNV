@@ -5,7 +5,9 @@ public class QLNV {
     private int MaNv;
     private String HoTen;
     private String ChucVu;
-    private byte[] hinh;
+    private String GioiTinh;
+    private String DiaChi;
+    private String SDT;
 
     public int getMaNv() {
         return MaNv;
@@ -31,6 +33,30 @@ public class QLNV {
         ChucVu = chucVu;
     }
 
+    public String getGioiTinh() {
+        return GioiTinh;
+    }
+
+    public void setGioiTinh(String gioiTinh) {
+        GioiTinh = gioiTinh;
+    }
+
+    public String getDiaChi() {
+        return DiaChi;
+    }
+
+    public void setDiaChi(String diaChi) {
+        DiaChi = diaChi;
+    }
+
+    public String getSDT() {
+        return SDT;
+    }
+
+    public void setSDT(String SDT) {
+        this.SDT = SDT;
+    }
+
     public byte[] getHinh() {
         return hinh;
     }
@@ -39,10 +65,16 @@ public class QLNV {
         this.hinh = hinh;
     }
 
-    public QLNV(int maNv, String hoTen, String chucVu, byte[] hinh) {
+    public QLNV(int maNv, String hoTen, String chucVu, String gioiTinh, String diaChi, String SDT, byte[] hinh) {
         MaNv = maNv;
         HoTen = hoTen;
         ChucVu = chucVu;
+        GioiTinh = gioiTinh;
+        DiaChi = diaChi;
+        this.SDT = SDT;
         this.hinh = hinh;
     }
+
+    private byte[] hinh;
+
 }

@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,7 +29,6 @@ import com.example.qlnv.R;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 public class SuaActivity extends AppCompatActivity {
     ImageView imgHinh;
@@ -55,26 +53,23 @@ public class SuaActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int maNv = intent.getIntExtra("MaNv", 1);
         String hoTen = intent.getStringExtra("HoTen");
-        String cv = intent.getStringExtra("ChucVu");
         String gt = intent.getStringExtra("GioiTinh");
         String dc = intent.getStringExtra("DiaChi");
         String sdt = intent.getStringExtra("SDT");
+        String cv = intent.getStringExtra("ChucVu");
         byte[] hinh = intent.getByteArrayExtra("HinhAnh");
 
         edtMaNv.setText(String.valueOf(maNv));
         edtHoTen.setText(hoTen);
-        edtChucVu.setText(cv);
         edtGioiTinh.setText(gt);
         edtDiaChi.setText(dc);
         edtSDT.setText(sdt);
+        edtChucVu.setText(cv);
 
         if (hinh != null) {
             Bitmap bitmap = BitmapFactory.decodeByteArray(hinh, 0, hinh.length);
             imgHinh.setImageBitmap(bitmap);
         }
-
-        String manv = edtMaNv.toString().trim();
-
 
         btnSua.setOnClickListener(new View.OnClickListener() {
             @Override

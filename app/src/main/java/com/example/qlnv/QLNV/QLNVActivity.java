@@ -56,14 +56,17 @@ public class QLNVActivity extends AppCompatActivity {
         database.QueryData("CREATE TABLE IF NOT EXISTS QLNV(MaNv VARCHAR(10) PRIMARY KEY , HoTen VARCHAR(50)," +
                 " ChucVu VARCHAR(50), GioiTinh VARCHAR(10), Diachi VARCHAR(50), SDT VARCHAR(11), HinhAnh BLOB)");
 
-        //get data
-        Cursor cursor = database.GetData("SELECT MaNv, HoTen, ChucVu, HinhAnh FROM QLNV");
+        // Lấy dữ liệu
+        Cursor cursor = database.GetData("SELECT MaNv, HoTen, ChucVu, GioiTinh, DiaChi, SDT, HinhAnh FROM QLNV");
         while (cursor.moveToNext()) {
             arrayNv.add(new QLNV(
                     cursor.getInt(0),
                     cursor.getString(1),
                     cursor.getString(2),
-                    cursor.getBlob(3)
+                    cursor.getString(3),
+                    cursor.getString(4),
+                    cursor.getString(5),
+                    cursor.getBlob(6)
             ));
             adapter.notifyDataSetChanged();
         }
@@ -72,28 +75,24 @@ public class QLNVActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long id) {
                 index = i;
-                Object item = parent.getItemAtPosition(index);
-                QLNV qlnv = (QLNV) item;
+                QLNV qlnv = arrayNv.get(index);
                 int maNv = qlnv.getMaNv();
                 String hoten = qlnv.getHoTen();
-                String cv = qlnv.getChucVu();
                 byte[] hinh = qlnv.getHinh();
+                String gt = qlnv.getGioiTinh();
+                String dc = qlnv.getDiaChi();
+                String sdt = qlnv.getSDT();
+                String cv = qlnv.getChucVu();
 
-                Cursor cursor = database.GetData("SELECT GioiTinh, DiaChi, SDT FROM QLNV WHERE MaNv = " + maNv);
-                if (cursor.moveToFirst()) {
-//                    @SuppressLint("Range") String gt = cursor.getString(cursor.getColumnIndex("GioiTinh"));
-//                    @SuppressLint("Range") String dc = cursor.getString(cursor.getColumnIndex("DiaChi"));
-//                    @SuppressLint("Range") String sdt = cursor.getString(cursor.getColumnIndex("SDT"));
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(QLNVActivity.this);
-                    builder.setTitle("Cảnh báo");
-                    builder.setMessage("Bạn muốn xóa hay sửa nhân viên có mã nhân viên " + maNv + " này?");
-                    builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            AlertDialog.Builder builder1 = new AlertDialog.Builder(QLNVActivity.this);
-                            builder1.setTitle("Cảnh báo");
-                            builder1.setMessage("Bạn có chắc chắn muốn xóa nhân viên có mã nhân viên là " + maNv + " này?");
+                AlertDialog.Builder builder = new AlertDialog.Builder(QLNVActivity.this);
+                builder.setTitle("Cảnh báo");
+                builder.setMessage("Bạn muốn xóa hay sửa nhân viên có mã nhân viên " + maNv + " này?");
+                builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(QLNVActivity.this);
+                        builder1.setTitle("Cảnh báo");
+                        builder1.setMessage("Bạn có chắc chắn muốn xóa nhân viên có mã nhân viên là " + maNv + " này?");
                             builder1.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -117,9 +116,9 @@ public class QLNVActivity extends AppCompatActivity {
                             intent.putExtra("MaNv", maNv);
                             intent.putExtra("HoTen", hoten);
                             intent.putExtra("ChucVu", cv);
-//                            intent.putExtra("GioiTinh", gt);
-//                            intent.putExtra("DiaChi", dc);
-//                            intent.putExtra("SDT", sdt);
+                            intent.putExtra("GioiTinh", gt);
+                            intent.putExtra("DiaChi", dc);
+                            intent.putExtra("SDT", sdt);
                             // Truyền dữ liệu hình ảnh dưới dạng byte array
                             intent.putExtra("HinhAnh", hinh);
 
@@ -134,8 +133,6 @@ public class QLNVActivity extends AppCompatActivity {
                     });
                     builder.show();
                     return true;
-                }
-                return true;
             }
         });
 
