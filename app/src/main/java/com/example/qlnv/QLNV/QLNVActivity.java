@@ -3,10 +3,13 @@ package com.example.qlnv.QLNV;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -149,11 +152,15 @@ public class QLNVActivity extends AppCompatActivity {
             }
         });
 
+        // Đọc thông tin tài khoản đăng nhập từ SharedPreferences
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String loggedInUser = sharedPreferences.getString("LoggedInUser", null);
+
         btnMenu = (ImageButton) findViewById(R.id.btnMenu);
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowMenu();
+                ShowMenu(loggedInUser);
             }
         });
 
@@ -191,16 +198,25 @@ public class QLNVActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private void ShowMenu() {
+    private void ShowMenu(String loggedInUser) {
         PopupMenu popupMenu = new PopupMenu(QLNVActivity.this, btnMenu);
         popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
-
+        // Thêm thông tin tài khoản đăng nhập vào menu
+        Menu menu = popupMenu.getMenu();
+//        menu.findItem(R.id.itemAccount).setTitle(loggedInUser);
+        if (loggedInUser != null) {
+            // Đã đăng nhập, hiển thị tên tài khoản trong menu
+            menu.findItem(R.id.itemAccount).setTitle("Tài Khoản : " + loggedInUser).setEnabled(false);
+        }
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.itemBaoLoi) {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.me/leba.tinh.36vip7star.sv7.real"));
                     startActivity(intent);
+                } else if (item.getItemId() == R.id.itemExit) {
+                    finish();
+                    return true;
                 } else if (item.getItemId() == R.id.itemSdt) {
                     ActivityCompat.requestPermissions(
                             QLNVActivity.this,
@@ -222,8 +238,6 @@ public class QLNVActivity extends AppCompatActivity {
                     intent3.putExtra(Intent.EXTRA_SUBJECT, "Báo lỗi phần mềm");
                     intent3.putExtra(Intent.EXTRA_TEXT, "Phần mềm của bạn đang bị lỗi");
                     startActivity(Intent.createChooser(intent3, "Send Email"));
-                } else {
-                    return false;
                 }
                 return true;
             }

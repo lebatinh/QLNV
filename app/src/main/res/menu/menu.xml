@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/itemAccount"
+        android:icon="@android:drawable/stat_notify_error"
+        app:showAsAction="withText"
+        android:title="" />
     <item
         android:id="@+id/itemBaoLoi"
         android:icon="@android:drawable/stat_notify_error"
         android:title="Báo lỗi"
         app:showAsAction="withText" />
-
+    <item
+        android:id="@+id/itemExit"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:title="Thoát ứng dụng"
+        app:showAsAction="withText" />
     <item
         android:orderInCategory="2"
         android:title="Liên hệ với tôi">

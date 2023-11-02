@@ -1,9 +1,11 @@
 package com.example.qlnv.QLTK;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -40,13 +42,16 @@ public class QLTKActivity extends AppCompatActivity {
 
         //select data
         Cursor dataTK = database.GetData("SELECT * FROM QLTK");
-        while (dataTK.moveToNext()) {
-            int id = dataTK.getInt(0);
-            String tk = dataTK.getString(1);
-            String mk = dataTK.getString(2);
+        if (dataTK != null && dataTK.moveToFirst()) {
+            do {
+                int id = dataTK.getInt(0);
+                String tk = dataTK.getString(1);
+                String mk = dataTK.getString(2);
+            } while (dataTK.moveToNext());
+            dataTK.close();
         }
-        GiaoDien();
 
+        GiaoDien();
         //khi ấn vào quên mật khẩu
         TextView txtForget = findViewById(R.id.txtForget);
         txtForget.setOnClickListener(v -> startActivity(new Intent(QLTKActivity.this, ForgetPassword.class)));
@@ -57,6 +62,13 @@ public class QLTKActivity extends AppCompatActivity {
         TextView txtChangeMk = findViewById(R.id.txtChangeMk);
         txtChangeMk.setOnClickListener(v -> startActivity(new Intent(QLTKActivity.this, com.example.qlnv.QLTK.Changepassword.class)));
 
+    }
+
+    private void saveLoggedInUser(String Tk) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("LoggedInUser", Tk);
+        editor.apply();
     }
 
     @Override
@@ -139,6 +151,7 @@ public class QLTKActivity extends AppCompatActivity {
                     try {
                         Cursor cursor = database.GetData("SELECT * FROM QLTK where TK = '" + Tk + "' AND MK = '" + Mk + "'");
                         if (cursor.getCount() > 0) {
+                            saveLoggedInUser(Tk);
                             Toast.makeText(QLTKActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(QLTKActivity.this, WelcomeActivity.class);
                             database.close();
@@ -154,6 +167,5 @@ public class QLTKActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 }
