@@ -46,10 +46,6 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ForgetPassword"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".CodeByMe"
             android:exported="false"
             android:screenOrientation="portrait" />

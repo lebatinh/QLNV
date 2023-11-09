@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.qlnv.CodeByMe;
 import com.example.qlnv.Database;
-import com.example.qlnv.ForgetPassword;
 import com.example.qlnv.R;
 import com.example.qlnv.WelcomeActivity;
 import com.google.android.material.textfield.TextInputEditText;
@@ -52,9 +51,6 @@ public class QLTKActivity extends AppCompatActivity {
         }
 
         GiaoDien();
-        //khi ấn vào quên mật khẩu
-        TextView txtForget = findViewById(R.id.txtForget);
-        txtForget.setOnClickListener(v -> startActivity(new Intent(QLTKActivity.this, ForgetPassword.class)));
         //khi ấn vào dòng Code by me
         TextView txtCodeByMe = findViewById(R.id.txtCodeByMe);
         txtCodeByMe.setOnClickListener(v -> startActivity(new Intent(QLTKActivity.this, CodeByMe.class)));

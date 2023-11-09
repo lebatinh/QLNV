@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.qlnv.Database;
+import com.example.qlnv.QLTK.QLTKActivity;
 import com.example.qlnv.R;
 
 import java.sql.PreparedStatement;
@@ -215,7 +216,7 @@ public class QLNVActivity extends AppCompatActivity {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.me/leba.tinh.36vip7star.sv7.real"));
                     startActivity(intent);
                 } else if (item.getItemId() == R.id.itemExit) {
-                    finish();
+                    startActivity(new Intent(QLNVActivity.this, QLTKActivity.class));
                     return true;
                 } else if (item.getItemId() == R.id.itemSdt) {
                     ActivityCompat.requestPermissions(
