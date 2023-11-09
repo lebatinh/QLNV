@@ -80,7 +80,6 @@ public class QLNVActivity extends AppCompatActivity {
         }
         cursor.close();
 
-
         // Đọc thông tin tài khoản đăng nhập từ SharedPreferences
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(QLNVActivity.this);
         String loggedInUser = sharedPreferences.getString("LoggedInUser", null);
@@ -171,7 +170,6 @@ public class QLNVActivity extends AppCompatActivity {
             }
         });
 
-
         btnMenu = (ImageButton) findViewById(R.id.btnMenu);
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,8 +194,6 @@ public class QLNVActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-
     }
 
     private void performSearch(String query) {
@@ -210,7 +206,6 @@ public class QLNVActivity extends AppCompatActivity {
                 searchResults.add(employee);
             }
         }
-
         adapter = new QLNVAdapter(this, R.layout.nv_defaut, searchResults);
         lvNv.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -221,7 +216,6 @@ public class QLNVActivity extends AppCompatActivity {
         popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
         // Thêm thông tin tài khoản đăng nhập vào menu
         Menu menu = popupMenu.getMenu();
-//        menu.findItem(R.id.itemAccount).setTitle(loggedInUser);
         if (loggedInUser != null) {
             // Đã đăng nhập, hiển thị tên tài khoản trong menu
             menu.findItem(R.id.itemAccount).setTitle("Tài Khoản : " + loggedInUser).setEnabled(false);
@@ -283,5 +277,4 @@ public class QLNVActivity extends AppCompatActivity {
     public void onBackPressed() {
         // do nothing
     }
-
 }

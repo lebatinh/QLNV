@@ -66,7 +66,8 @@ public class QLNV {
         this.hinh = hinh;
     }
 
-    public QLNV(String maNv, String hoTen, String chucVu, String gioiTinh, String diaChi, String sdt, byte[] hinh) {
+    public QLNV(String maNv, String hoTen, String chucVu, String gioiTinh,
+                String diaChi, String sdt, byte[] hinh) {
         MaNv = maNv;
         HoTen = hoTen;
         ChucVu = chucVu;
