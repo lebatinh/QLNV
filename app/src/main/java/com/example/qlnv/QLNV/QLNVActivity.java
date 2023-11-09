@@ -79,72 +79,7 @@ public class QLNVActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
         cursor.close();
-        lvNv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long id) {
-                index = i;
-                Object item = parent.getItemAtPosition(index);
-                QLNV qlnv = (QLNV) item;
-                String maNv = String.valueOf(qlnv.getMaNv());
-                String hoten = qlnv.getHoTen();
-                byte[] hinh = qlnv.getHinh();
-                String gt = qlnv.getGioiTinh();
-                String dc = qlnv.getDiaChi();
-                String sdt = qlnv.getSDT();
-                String cv = qlnv.getChucVu();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(QLNVActivity.this);
-                builder.setTitle("Cảnh báo");
-                builder.setMessage("Bạn muốn xóa hay sửa nhân viên có mã nhân viên " + maNv + " này?");
-                builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(QLNVActivity.this);
-                        builder1.setTitle("Cảnh báo");
-                        builder1.setMessage("Bạn có chắc chắn muốn xóa nhân viên có mã nhân viên là " + maNv + " này?");
-                        builder1.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                String query = "DELETE FROM QLNV WHERE MaNv = '" + maNv + "'";
-                                PreparedStatement pstmt = database.QueryData(query);
-                                arrayNv.remove(index);
-                                database.close();
-                                Toast.makeText(QLNVActivity.this, "Xóa thành công nhân viên: " + maNv, Toast.LENGTH_SHORT).show();
-                                adapter.notifyDataSetChanged();
-                            }
-                        });
-                        builder1.setNegativeButton("Không", null);
-                        builder1.show();
-                    }
-                });
-                builder.setNegativeButton("Sửa", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(QLNVActivity.this, SuaActivity.class);
-
-                        // Gửi thông tin nhân viên tới SuaActivity
-                        intent.putExtra("MaNv", maNv);
-                        intent.putExtra("HoTen", hoten);
-                        intent.putExtra("ChucVu", cv);
-                        intent.putExtra("GioiTinh", gt);
-                        intent.putExtra("DiaChi", dc);
-                        intent.putExtra("SDT", sdt);
-                        // Truyền dữ liệu hình ảnh dưới dạng byte array
-                        intent.putExtra("HinhAnh", hinh);
-
-                        startActivity(intent);
-                    }
-                });
-                builder.setNeutralButton("Thoát", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builder.show();
-                return true;
-            }
-        });
 
         // Đọc thông tin tài khoản đăng nhập từ SharedPreferences
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(QLNVActivity.this);
@@ -158,6 +93,72 @@ public class QLNVActivity extends AppCompatActivity {
         // Kiểm tra xem admin đã đăng nhập hay không
         if (isAdminLoggedIn.equals(mk_admin)) {
             // Nếu là admin, hiển thị nút btnThem
+            lvNv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long id) {
+                    index = i;
+                    Object item = parent.getItemAtPosition(index);
+                    QLNV qlnv = (QLNV) item;
+                    String maNv = String.valueOf(qlnv.getMaNv());
+                    String hoten = qlnv.getHoTen();
+                    byte[] hinh = qlnv.getHinh();
+                    String gt = qlnv.getGioiTinh();
+                    String dc = qlnv.getDiaChi();
+                    String sdt = qlnv.getSDT();
+                    String cv = qlnv.getChucVu();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(QLNVActivity.this);
+                    builder.setTitle("Cảnh báo");
+                    builder.setMessage("Bạn muốn xóa hay sửa nhân viên có mã nhân viên " + maNv + " này?");
+                    builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(QLNVActivity.this);
+                            builder1.setTitle("Cảnh báo");
+                            builder1.setMessage("Bạn có chắc chắn muốn xóa nhân viên có mã nhân viên là " + maNv + " này?");
+                            builder1.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    String query = "DELETE FROM QLNV WHERE MaNv = '" + maNv + "'";
+                                    PreparedStatement pstmt = database.QueryData(query);
+                                    arrayNv.remove(index);
+                                    database.close();
+                                    Toast.makeText(QLNVActivity.this, "Xóa thành công nhân viên: " + maNv, Toast.LENGTH_SHORT).show();
+                                    adapter.notifyDataSetChanged();
+                                }
+                            });
+                            builder1.setNegativeButton("Không", null);
+                            builder1.show();
+                        }
+                    });
+                    builder.setNegativeButton("Sửa", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(QLNVActivity.this, SuaActivity.class);
+
+                            // Gửi thông tin nhân viên tới SuaActivity
+                            intent.putExtra("MaNv", maNv);
+                            intent.putExtra("HoTen", hoten);
+                            intent.putExtra("ChucVu", cv);
+                            intent.putExtra("GioiTinh", gt);
+                            intent.putExtra("DiaChi", dc);
+                            intent.putExtra("SDT", sdt);
+                            // Truyền dữ liệu hình ảnh dưới dạng byte array
+                            intent.putExtra("HinhAnh", hinh);
+
+                            startActivity(intent);
+                        }
+                    });
+                    builder.setNeutralButton("Thoát", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                    return true;
+                }
+            });
             btnThem.setVisibility(View.VISIBLE);
         } else {
             // Nếu không phải admin, ẩn nút btnThem
