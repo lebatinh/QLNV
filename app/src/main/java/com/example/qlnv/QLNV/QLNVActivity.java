@@ -109,6 +109,7 @@ public class QLNVActivity extends AppCompatActivity {
                                 PreparedStatement pstmt = database.QueryData(query);
                                 arrayNv.remove(index);
                                 database.close();
+                                Toast.makeText(QLNVActivity.this, "Xóa thành công nhân viên: " + maNv, Toast.LENGTH_SHORT).show();
                                 adapter.notifyDataSetChanged();
                             }
                         });

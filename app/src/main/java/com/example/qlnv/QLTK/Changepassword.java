@@ -43,6 +43,24 @@ public class Changepassword extends AppCompatActivity {
         DoiMK();
     }
 
+    // Function to show AlertDialog
+    private void showAlertDialog(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Changepassword.this);
+        builder.setMessage(message);
+        builder.setCancelable(true);
+        builder.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        alert.show();
+    }
+
     @Override
     public void onBackPressed() {
         // do nothing
@@ -61,10 +79,15 @@ public class Changepassword extends AppCompatActivity {
                 String mkc = edtMk_old.getText().toString().trim();
                 String mkm = edtMk_new.getText().toString().trim();
 
-                if (!tkc.isEmpty() || !mkc.isEmpty() || !mkm.isEmpty()) {
+                if (tkc.isEmpty()) {
+                    showAlertDialog("Không được bỏ trống Tài khoản!");
+                } else if (mkc.isEmpty()) {
+                    showAlertDialog("Không được bỏ trống Mật khẩu cũ!");
+                } else if (mkm.isEmpty()) {
+                    showAlertDialog("Không được bỏ trống Mật khẩu mới!");
+                } else {
                     Cursor cursor = database.GetData("SELECT * FROM QLTK where TK = '" + tkc + "' AND MK = '" + mkc + "'");
                     if (cursor.getCount() > 0) {
-
                         database.QueryData("UPDATE QLTK SET MK = '" + mkm + "' WHERE TK = '" + tkc + "' ");
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(Changepassword.this);
@@ -83,37 +106,10 @@ public class Changepassword extends AppCompatActivity {
                         alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         alert.show();
                     } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Changepassword.this);
-                        builder.setMessage("Mật khẩu cũ không chính xác!");
-                        builder.setCancelable(true);
-                        builder.setPositiveButton(
-                                "OK",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-
-                        AlertDialog alert = builder.create();
-                        alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        alert.show();
+                        showAlertDialog("Mật khẩu cũ không chính xác!");
                     }
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Changepassword.this);
-                    builder.setMessage("Không được bỏ trống bất kì ô nào");
-                    builder.setCancelable(true);
-                    builder.setPositiveButton(
-                            "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-
-                    AlertDialog alert = builder.create();
-                    alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    alert.show();
                 }
+
             }
         });
     }

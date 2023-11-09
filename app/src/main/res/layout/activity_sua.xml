@@ -64,9 +64,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/edtMaNv1"
-                        android:hint="Ghi vào đây"
                         android:gravity="center"
                         android:textSize="20sp"
                         android:textStyle="bold"

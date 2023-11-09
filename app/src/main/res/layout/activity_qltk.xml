@@ -139,17 +139,6 @@
                     tools:ignore="HardcodedText,DuplicateSpeakableTextCheck,VisualLintButtonSize" />
 
                 <TextView
-                    android:id="@+id/txtForget"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textColor="@color/black"
-                    android:text="Quên Mật Khẩu?"
-                    android:textSize="13sp"
-                    android:textStyle="italic"
-                    tools:ignore="HardcodedText,TextSizeCheck" />
-
-                <TextView
                     android:id="@+id/txtChangeMk"
                     android:text="Đổi mật khẩu?"
                     android:textSize="15sp"

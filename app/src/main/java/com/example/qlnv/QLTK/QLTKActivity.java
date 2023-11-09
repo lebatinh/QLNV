@@ -1,5 +1,7 @@
 package com.example.qlnv.QLTK;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -58,6 +60,19 @@ public class QLTKActivity extends AppCompatActivity {
         TextView txtChangeMk = findViewById(R.id.txtChangeMk);
         txtChangeMk.setOnClickListener(v -> startActivity(new Intent(QLTKActivity.this, com.example.qlnv.QLTK.Changepassword.class)));
 
+    }
+
+    // Function to show AlertDialog
+    private void showAlertDialog(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(QLTKActivity.this);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Handle OK button click if needed
+            }
+        });
+        builder.show();
     }
 
     private void saveLoggedInUser(String Tk) {
@@ -119,21 +134,30 @@ public class QLTKActivity extends AppCompatActivity {
                 String Tk = edtTk_Dk.getText().toString().trim();
                 String Mk = edtMk_Dk.getText().toString().trim();
                 String Mk2 = edtMk_Dk1.getText().toString().trim();
-                try {
-                    Cursor cursor = database.GetData("SELECT * FROM QLTK where TK = '" + Tk + "'");
-                    if (cursor.getCount() > 0) {
-                        Toast.makeText(QLTKActivity.this, "Tài khoản đã được đăng ký. Vui lòng sử dụng tài khoản khác", Toast.LENGTH_LONG).show();
-                    } else {
-                        if (Mk.equals(Mk2) && !Tk.isEmpty()) {
-                            database.QueryData("INSERT INTO QLTK(TK, MK) VALUES('" + Tk + "', '" + Mk + "')");
-                            database.close();
-                            Toast.makeText(QLTKActivity.this, "Đăng ký tài khoản thành công. Vui lòng đăng nhập để sử dụng!", Toast.LENGTH_SHORT).show();
+
+                if (Tk.isEmpty()) {
+                    showAlertDialog("Bạn quên chưa điền Tài khoản!");
+                } else if (Mk.isEmpty()) {
+                    showAlertDialog("Bạn quên chưa điền Mật khẩu!");
+                } else if (Mk2.isEmpty()) {
+                    showAlertDialog("Bạn quên chưa nhắc lại Mật khẩu!");
+                } else {
+                    try {
+                        Cursor cursor = database.GetData("SELECT * FROM QLTK where TK = '" + Tk + "'");
+                        if (cursor.getCount() > 0) {
+                            showAlertDialog("Tài khoản đã được đăng ký. Vui lòng sử dụng tài khoản khác!");
                         } else {
-                            Toast.makeText(QLTKActivity.this, "Mật khẩu nhập lại PHẢI trùng với mật khẩu trước đó", Toast.LENGTH_SHORT).show();
+                            if (Mk.equals(Mk2)) {
+                                database.QueryData("INSERT INTO QLTK(TK, MK) VALUES('" + Tk + "', '" + Mk + "')");
+                                database.close();
+                                showAlertDialog("Đăng ký tài khoản thành công. Vui lòng đăng nhập để sử dụng!");
+                            } else {
+                                showAlertDialog("Mật khẩu nhập lại PHẢI trùng với mật khẩu trước đó");
+                            }
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
         });
@@ -157,9 +181,9 @@ public class QLTKActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }if(Tk.isEmpty()) {
-                    edtTk_Dn.setText("Không được bỏ trống!");
+                    showAlertDialog("Không được bỏ trống Tài khoản!");
                 }if(Mk.isEmpty()){
-                    edtMk_Dn.setText("Không được bỏ trống!");
+                    showAlertDialog("Không được bỏ trống Mật khẩu!");
                 }
             }
         });

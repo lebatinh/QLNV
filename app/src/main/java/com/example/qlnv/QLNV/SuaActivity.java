@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,12 @@ import java.io.InputStream;
 
 public class SuaActivity extends AppCompatActivity {
     ImageView imgHinh;
-    EditText edtMaNv, edtHoTen, edtChucVu, edtGioiTinh, edtDiaChi, edtSDT;
+    TextView edtMaNv;
+    EditText edtHoTen;
+    EditText edtChucVu;
+    EditText edtGioiTinh;
+    EditText edtDiaChi;
+    EditText edtSDT;
     Button btnSua, btnThoat;
     final int REQUEST_CODE_CAMERA = 123;
     final int REQUEST_CODE_FOLDER = 456;
@@ -206,7 +212,7 @@ public class SuaActivity extends AppCompatActivity {
         btnSua = (Button) findViewById(R.id.btnSua1);
         btnThoat = (Button) findViewById(R.id.btnThoat1);
 
-        edtMaNv = (EditText) findViewById(R.id.edtMaNv1);
+        edtMaNv = (TextView) findViewById(R.id.edtMaNv1);
         edtHoTen = (EditText) findViewById(R.id.edtHoTen1);
         edtGioiTinh = (EditText) findViewById(R.id.edtGioiTinh1);
         edtDiaChi = (EditText) findViewById(R.id.edtDiaChi1);
