@@ -131,7 +131,7 @@ public class QLNVActivity extends AppCompatActivity {
                             builder1.show();
                         }
                     });
-                    builder.setNegativeButton("Sửa", new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton("Xem", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             Intent intent = new Intent(QLNVActivity.this, SuaActivity.class);
