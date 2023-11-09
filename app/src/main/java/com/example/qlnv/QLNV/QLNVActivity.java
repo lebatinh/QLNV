@@ -43,7 +43,7 @@ public class QLNVActivity extends AppCompatActivity {
     ImageButton btnThem;
     final int REQUEST_CODE_PHONE = 1;
     int index = -1;
-
+    final String mk_admin = "1";
     SearchView searchView;
 
     @Override
@@ -146,7 +146,23 @@ public class QLNVActivity extends AppCompatActivity {
             }
         });
 
+        // Đọc thông tin tài khoản đăng nhập từ SharedPreferences
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(QLNVActivity.this);
+        String loggedInUser = sharedPreferences.getString("LoggedInUser", null);
+
+        // Hàm kiểm tra xem admin đã đăng nhập hay không
+        SharedPreferences sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(QLNVActivity.this);
+        String isAdminLoggedIn = sharedPreferences1.getString("IsAdminLoggedIn", null);
+
         btnThem = (ImageButton) findViewById(R.id.btnThem);
+        // Kiểm tra xem admin đã đăng nhập hay không
+        if (isAdminLoggedIn.equals(mk_admin)) {
+            // Nếu là admin, hiển thị nút btnThem
+            btnThem.setVisibility(View.VISIBLE);
+        } else {
+            // Nếu không phải admin, ẩn nút btnThem
+            btnThem.setVisibility(View.GONE);
+        }
         btnThem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,9 +170,6 @@ public class QLNVActivity extends AppCompatActivity {
             }
         });
 
-        // Đọc thông tin tài khoản đăng nhập từ SharedPreferences
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String loggedInUser = sharedPreferences.getString("LoggedInUser", null);
 
         btnMenu = (ImageButton) findViewById(R.id.btnMenu);
         btnMenu.setOnClickListener(new View.OnClickListener() {
@@ -182,6 +195,8 @@ public class QLNVActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
     }
 
     private void performSearch(String query) {

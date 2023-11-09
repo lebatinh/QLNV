@@ -61,7 +61,6 @@ public class QLTKActivity extends AppCompatActivity {
         txtChangeMk.setOnClickListener(v -> startActivity(new Intent(QLTKActivity.this, com.example.qlnv.QLTK.Changepassword.class)));
 
     }
-
     // Function to show AlertDialog
     private void showAlertDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(QLTKActivity.this);
@@ -73,13 +72,6 @@ public class QLTKActivity extends AppCompatActivity {
             }
         });
         builder.show();
-    }
-
-    private void saveLoggedInUser(String Tk) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("LoggedInUser", Tk);
-        editor.apply();
     }
 
     @Override
@@ -99,12 +91,14 @@ public class QLTKActivity extends AppCompatActivity {
             }
         }, 2000);
     }
+
     private void GiaoDien() {
         TextView txtDangNhap = findViewById(R.id.txtDangNhap);
         LinearLayout linearDangNhap = findViewById(R.id.linearDangNhap);
         Button btnDangNhap = findViewById(R.id.btnDangNhap);
         TextInputEditText edtTk_Dn = findViewById(R.id.edtTk_Dn);
         TextInputEditText edtMk_Dn = findViewById(R.id.edtMk_Dn);
+        TextInputEditText edtMk_admin = findViewById(R.id.edtMk_admin);
 
         TextView txtDangKy = findViewById(R.id.txtDangKy);
         LinearLayout linearDangKy = findViewById(R.id.linearDangKy);
@@ -166,12 +160,14 @@ public class QLTKActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String Tk = edtTk_Dn.getText().toString().trim();
                 String Mk = edtMk_Dn.getText().toString().trim();
+                String Mk_ad = edtMk_admin.getText().toString().trim();
 
                 if (!Tk.isEmpty() && !Mk.isEmpty()) {
                     try {
                         Cursor cursor = database.GetData("SELECT * FROM QLTK where TK = '" + Tk + "' AND MK = '" + Mk + "'");
                         if (cursor.getCount() > 0) {
                             saveLoggedInUser(Tk);
+                            saveLoggedInAdmin(Mk_ad);
                             Toast.makeText(QLTKActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(QLTKActivity.this, WelcomeActivity.class);
                             database.close();
@@ -180,12 +176,28 @@ public class QLTKActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }if(Tk.isEmpty()) {
+                }
+                if (Tk.isEmpty()) {
                     showAlertDialog("Không được bỏ trống Tài khoản!");
-                }if(Mk.isEmpty()){
+                }
+                if (Mk.isEmpty()) {
                     showAlertDialog("Không được bỏ trống Mật khẩu!");
                 }
             }
         });
+    }
+
+    private void saveLoggedInUser(String Tk) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(QLTKActivity.this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("LoggedInUser", Tk);
+        editor.apply();
+    }
+
+    private void saveLoggedInAdmin(String Mk_ad) {
+        SharedPreferences sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(QLTKActivity.this);
+        SharedPreferences.Editor editor = sharedPreferences1.edit();
+        editor.putString("IsAdminLoggedIn", Mk_ad);
+        editor.apply();
     }
 }

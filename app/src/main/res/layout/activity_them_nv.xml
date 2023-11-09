@@ -200,6 +200,7 @@
                         android:hint="Ghi vào đây"
                         android:gravity="center"
                         android:textSize="20sp"
+                        android:digits="1234567890"
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
