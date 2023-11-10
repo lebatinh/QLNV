@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.qlnv.Database;
 import com.example.qlnv.QLTK.QLTKActivity;
@@ -230,15 +231,22 @@ public class QLNVActivity extends AppCompatActivity {
                     startActivity(new Intent(QLNVActivity.this, QLTKActivity.class));
                     return true;
                 } else if (item.getItemId() == R.id.itemSdt) {
-                    ActivityCompat.requestPermissions(
-                            QLNVActivity.this,
-                            new String[]{Manifest.permission.CALL_PHONE},
-                            REQUEST_CODE_PHONE
-                    );
-                    String phoneNumber = "0327181134";
-                    Intent intent2 = new Intent(Intent.ACTION_DIAL);
-                    intent2.setData(Uri.parse("tel:" + phoneNumber));
-                    startActivity(intent2);
+                    // Kiểm tra quyền gọi điện thoại
+                    if (ContextCompat.checkSelfPermission(QLNVActivity.this, Manifest.permission.CALL_PHONE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        // Nếu quyền chưa được cấp phép, yêu cầu cấp phép
+                        ActivityCompat.requestPermissions(
+                                QLNVActivity.this,
+                                new String[]{Manifest.permission.CALL_PHONE},
+                                REQUEST_CODE_PHONE
+                        );
+                    } else {
+                        // Nếu quyền đã được cấp phép, thực hiện cuộc gọi
+                        String phoneNumber = "0327181134";
+                        Intent intent2 = new Intent(Intent.ACTION_DIAL);
+                        intent2.setData(Uri.parse("tel:" + phoneNumber));
+                        startActivity(intent2);
+                    }
                 } else if (item.getItemId() == R.id.itemEmail) {
                     String[] TO = {"batinh569@gmail.com"};
                     String[] CC = {"batinh569@gmail.com"};
