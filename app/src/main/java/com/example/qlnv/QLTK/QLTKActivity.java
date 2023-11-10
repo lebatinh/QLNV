@@ -57,6 +57,7 @@ public class QLTKActivity extends AppCompatActivity {
         TextView txtCodeByMe = findViewById(R.id.txtCodeByMe);
         txtCodeByMe.setOnClickListener(v -> startActivity(new Intent(QLTKActivity.this, CodeByMe.class)));
 
+        //khi ấn vào dòng đổi mật khẩu
         TextView txtChangeMk = findViewById(R.id.txtChangeMk);
         txtChangeMk.setOnClickListener(v -> startActivity(new Intent(QLTKActivity.this, com.example.qlnv.QLTK.Changepassword.class)));
 
@@ -76,20 +77,7 @@ public class QLTKActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Nhấn quay lại một lần nữa để thoát ứng dụng", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 2000);
+        //do nothing
     }
 
     private void GiaoDien() {
@@ -172,6 +160,8 @@ public class QLTKActivity extends AppCompatActivity {
                             Intent intent = new Intent(QLTKActivity.this, WelcomeActivity.class);
                             database.close();
                             startActivity(intent);
+                        } else {
+                            showAlertDialog("Tài khoản hoặc mật khẩu không chính xác!");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

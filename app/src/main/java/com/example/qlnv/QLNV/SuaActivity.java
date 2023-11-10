@@ -95,7 +95,6 @@ public class SuaActivity extends AppCompatActivity {
                 String sdt = edtSDT.getText().toString().trim();
                 String chucVu = edtChucVu.getText().toString().trim();
 
-                // Kiểm tra xem Mã Nhân viên có thay đổi không
                 Cursor cursor = database.GetData("SELECT MaNv FROM QLNV WHERE MaNv = '" + maNv + "'");
                 if (cursor.getCount() > 0) {
                     // Mã Nhân viên không thay đổi, tiến hành cập nhật thông tin
@@ -103,21 +102,6 @@ public class SuaActivity extends AppCompatActivity {
                     database.close();
                     Toast.makeText(SuaActivity.this, "Đã cập nhật Nhân viên", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(SuaActivity.this, QLNVActivity.class));
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SuaActivity.this);
-                    builder.setMessage("Mã Nhân viên KHÔNG ĐƯỢC thay đổi.");
-                    builder.setCancelable(true);
-
-                    builder.setPositiveButton(
-                            "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-
-                    AlertDialog alert = builder.create();
-                    alert.show();
                 }
             }
         });
